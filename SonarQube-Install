@@ -1,0 +1,32 @@
+#! /bin/bash
+#Atleast 2cpus we need to install sonaraube
+#Install Java lastest Version
+sudo yum install java-21-openjdk java-21-openjdk-devel -y
+
+#Install Wget and Unzip 
+sudo yum install wget unzip -y
+
+#Go to this folder
+cd /opt
+
+#Install SonarQube from Internet link
+sudo wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-25.6.0.109173.zip
+
+#Unzip/extract the sonarqube
+sudo unzip sonarqube-25.6.0.109173.zip
+
+#Rename it
+sudo mv sonarqube-25.6.0.109173 sonarqube
+
+#Create user Sonar
+sudo useradd sonar
+
+#give ownership that sonar folder
+sudo chown -R sonar:sonar /opt/sonarqube
+
+#switch sonar user
+sudo su - sonar
+
+#Run a startup.sh file
+sh /opt/sonarqube/bin/linux-x86-64/sonar.sh
+sh /opt/sonarqube/bin/linux-x86-64/sonar.sh start 
