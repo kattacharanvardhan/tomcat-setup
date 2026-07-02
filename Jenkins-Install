@@ -1,3 +1,4 @@
+#! /bin/bash
 #STEP-1: Installing Git and Maven
 yum install git maven wget tree -y
 
