@@ -30,7 +30,6 @@ sudo chown -R nexus:nexus /opt/nexus
 sudo chown -R nexus:nexus /opt/sonatype-work 
 
 ##To run nexus as service at boot time, open /opt/nexus/bin/nexus.rc file, uncomment it and add nexus user as shown below
-mv /opt/nexus/bin/nexus /opt/nexus/bin/nexus.rc
 sudo vi /opt/nexus/bin/nexus.rc
 run_as_user="nexus" 
 
