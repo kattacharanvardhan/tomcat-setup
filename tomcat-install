@@ -5,7 +5,7 @@ yum install -y wget
 yum search openjdk
 
 #install java
-yum install java-21-openjdk java-21-openjdk-devel
+yum install java-21-openjdk java-21-openjdk-devel -y
 
 #download tomcat internet link[ https://dlcdn.apache.org/ --> search tomcat to lastest version --> In /bin folder looks like this (apache-tomcat-<version>.tar.gz) --> copy the link address]
 wget https://dlcdn.apache.org/tomcat/tomcat-11/v11.0.23/bin/apache-tomcat-11.0.23.tar.gz
