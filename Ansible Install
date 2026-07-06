@@ -1,0 +1,4 @@
+#! /bin/bash
+  
+yum install python3 -y
+yum install ansible-core -y
