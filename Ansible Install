@@ -2,3 +2,27 @@
 yum install python3 python-pip python-devel -y  
 yum install python3 -y
 yum install ansible-core -y
+
+#set password for root -- in  all slave servers and master also
+passwd root
+
+#enable root login in this /etc/ssh/sshd_config --> in  all slave servers and master also
+vi /etc/ssh/sshd_config
+ PermitRootLogin yes
+ PubkeyAuthentication yes
+ PasswordAuthentication yes
+
+#restart the sshd service --> in  all slave servers and master also
+systemctl restart sshd
+systemctl status sshd 
+
+#generate ssh keys in only master ansible server (name as id_rsa,id_rsa.pub)
+ssh-keygen
+
+#copy the keys to slave servers(username@private-ip) == do for all slave servers like this in ansible master server
+ssh-copy-id  root@private-ip-address-of-slave-server's
+
+#add list of ip in ansible server in inventory file (/etc/ansible/hosts)
+vi /etc/ansible/hosts
+add private ip of slave servers
+
