@@ -1,0 +1,117 @@
+1) Create playbook for ping to all server
+---
+ - name: My First Playbook to ping all server
+   hosts: all
+   become: yes
+   tasks:
+     - name: Test Connection
+       ping:
+...
+
+2) Create playbook for install httpd and print message
+---
+ - name: Install Apache(httpd) and print message
+   hosts: all
+   become: yes
+   tasks:
+     - name: Install Apache-httpd
+       yum:
+         name: httpd
+         state: present
+     - name: Print Message
+       debug:
+         msg: Installed apache
+...
+
+3) Create Playbook for Apache uninstall and print message
+---
+ - name: Uninstall Apache and Print Message
+   hosts: all
+   become: yes
+   tasks:
+     - name: Uninstall Apache(httpd)
+       yum:
+         name: httpd
+         state: absent
+     - name: Print Message
+       debug:
+         msg: uninstall apache
+...
+
+4) Create Playbook for Apache install and start and enable the service and print message
+---
+ - name: Install httpd and start and enable service and print message
+   hosts: all
+   become: yes
+   tasks:
+     - name: Install http
+       yum:
+         name: httpd
+         state: present
+     - name: enable service and start service
+       service:
+         name: httpd
+         state: started
+         enabled: yes
+     - name: print message
+       debug:
+         msg: started and enable httpd
+...
+
+5) Create Playbook for Git,docker install and start and enable the service and print message
+---
+ - name: install git and docker and start docker service
+   hosts: all
+   become: yes
+   tasks:
+     - name: Install Git
+       yum:
+         name: git
+         state: present
+     - name: Install Docker
+       yum:
+         name: docker
+         state: present
+     - name: start docker and enable service
+       service:
+         name: docker
+         state: started
+         enabled: yes
+     - name: message
+       debug:
+         msg: installed git and docker and start,enable service
+...
+
+6) Create playbook for creating user and copy files
+---
+ - name: create user and copy files
+   hosts: all
+   become: yes
+   tasks:
+     - name: create user
+       user:
+         name: charan
+         state: present
+     - name: copy files
+       copy:
+         src: file1 
+         dest: /root
+     - name: message
+       debug:
+         msg: user created and copied
+...
+
+7)  Create playbook for run any adhoc commands or all linux commands in playbook
+---
+ - name: install nginx and start it
+   hosts: all
+   become: yes
+   tasks:
+     - name: See disk usage
+       command: df -Th
+     - name: install tree and maven and tree
+       command: yum install -y git tree maven java-21-openjdk java-21-openjdk-devel
+     - name: message
+       debug:
+         msg: all done
+...
