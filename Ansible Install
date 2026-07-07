@@ -1,3 +1,4 @@
+#it's working in amazon linux machines only
 #! /bin/bash
 yum install python3 python-pip python-devel -y  
 yum install python3 -y
