@@ -161,3 +161,186 @@
        debug:
          msg: deployed
 ...
+
+10) Create Playbook for printing information about slave node or machince like server name,cpus,men=ms,flavour,package manager
+---
+ - name: printing all slave machine information
+   hosts: all
+   become: yes
+   tasks:
+     - name: Message
+       debug:
+         msg: "Server Name: {{ansible_nodename}}, Total CPUs: {{ansible_processor_vcpus}}, Total Memsize: {{ansible_memtotal_mb}}, Flavor: {{ansible_os_family}}, Package Manager: {{ansible_pkg_mgr}}"
+...
+
+11) Create Playbook for install git,docker,user and copy files and attach tags to every tasks (we can run particular task like only git and docker)
+---
+ - name: Install git,docker and create user and copy files to server and attaching tags
+   hosts: all
+   become: yes
+   tasks:
+     - name: Install Git
+       yum: name=git state=present
+       tags: git
+     - name: Install Docker
+       yum: name=docker state=present
+       tags: docker
+     - name: enable docker and start docker
+       service: name=docker state=started enabled=yes
+       tags: starts
+     - name: creating user
+       user: name=charan state=present
+       tags: charan
+     - name: copying files
+       copy: src=file1 dest=/root
+       tags: copies
+...
+
+12) Create Playbook for static variables(a=git,b=tree)
+---
+ - name: Install Git,Tree with static variables
+   hosts: all
+   become: yes
+   vars:
+     a: git
+     b: tree
+   tasks:
+     - name: Install Git
+       yum:
+         name: "{{a}}"
+         state: present
+     - name: Install Tree
+       yum:
+         name: "{{b}}"
+         state: present
+...
+
+13) Create Playbook for static variables install git,docker,maven,java and attach tags
+---
+ - name: install git,docker,maven,java and attach tags and static variables
+   hosts: all
+   become: yes
+   vars:
+     a: git
+     b: docker
+     c: maven
+     d: java-21-openjdk
+   tasks:
+     - name: Install Git
+       yum:
+         name: "{{a}}"
+         state: present
+         tags: git
+     - name: Install Docker
+       yum:
+         name: "{{b}}"
+         state: present
+         tags: docker
+     - name: Enable Docker and started
+       service:
+         name: "{{b}}"
+         state: started
+         enabled: yes
+         tags: start
+     - name: Install java
+       yum:
+         name: "{{d}}"
+         state: present
+         tags: java
+     - name: Install Maven
+       yum:
+         name: "{{c}}"
+         state: present
+         tags: maven
+...
+
+14) Create Playbook for Dynamic Variabels docker,java,python install (values are passing in command line only)
+    [ansible-playbook playbook.yml --extra-vars "a=docker b=java-21-openjdk c=python3" ==> to run playbook with dynamic variabels ]
+---
+ - name: Install docker and java and python3 using Dynamic variables
+   hosts: all
+   become: yes
+   tasks:
+     - name: Install Docker
+       yum:
+         name: "{{a}}"
+         state: present
+     - name: Install java
+       yum:
+         name: "{{b}}"
+         state: present
+     - name: Install Python
+       yum:
+         name: "{{c}}"
+         state: present
+...
+
+15) Create Playbook for install all in one shot like loop
+---
+ - name: Install all in one shot like loop
+   hosts: all
+   become: yes
+   gather_facts: false
+   tasks:
+     - name: in one shot
+       yum:
+         name: "{{item}}"
+         state: present
+       with_items:
+         - git
+         - maven
+         - tree
+         - docker
+         - httpd
+...
+
+16) Create Playbook for multiple user all in one shot like loop
+---
+ - name: create users in loop
+   hosts: all
+   become: yes
+   gather_facts: false
+   tasks:
+     - name: creating users
+       user:
+         name: "{{item}}"
+         state: present
+       loop:
+         - charan
+         - vardhan
+         - pallavi
+         - nandhini
+         - izahar
+         - kishore
+         - johnson
+...
+
+17) Create Playbook for Install httpd,docker and start immediately using notify and handlers
+---
+ - name: Install httpd,docker and start immediately using notify and handlers
+   hosts: all
+   become: yes
+   gather_facts: false
+   tasks:
+     - name: Install httpd
+       yum:
+         name: httpd
+         state: present
+       notify: start httpd
+     - name: Install docker
+       yum:
+         name: docker
+         state: present
+       notify: start docker
+   handlers:
+     - name: start httpd
+       service:
+         name: httpd
+         state: started
+         enabled: yes
+     - name: start docker
+       service:
+         name: docker
+         state: started
+         enabled: yes
+...
