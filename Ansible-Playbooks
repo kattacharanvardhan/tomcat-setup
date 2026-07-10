@@ -562,3 +562,29 @@ vi playbook/master.yml
          name: git
          state: present
 ...
+
+26) Create playbook for deploy application using git repo 
+---
+ - name: Deploy Application
+   hosts: all
+   become: yes
+   gather_facts: yes
+   tasks:
+     - name: Install Httpd
+       yum:
+         name: httpd
+         state: present
+     - name: start httpd
+       service:
+         name: httpd
+         state: started
+         enabled: yes
+     - name: install git
+       yum:
+         name: git
+         state: present
+     - name: copy code
+       git:
+         repo: https://github.com/kattacharanvardhan/amazon.git
+         dest: /var/www/html
+...
