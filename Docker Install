@@ -1,0 +1,8 @@
+#Install Docker In Amazon Linux 
+#! /bin/bash
+yum install docker -y
+systemctl status docker
+systemctl enable docker
+systemctl start docker
+systemctl status docker
+
