@@ -80,4 +80,7 @@ ENV  course="DevOps"
 EXPOSE 80
 CMD ["/usr/sbin/apachectl","-D","FOREGROUND"]
 
-10)
+Note:
+
+docker pull jenkins/jenkins
+docker pull ubuntu
