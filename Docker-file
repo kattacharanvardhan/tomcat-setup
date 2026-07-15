@@ -48,4 +48,14 @@ RUN  service apache2 restart
 EXPOSE 80
 CMD  ["/usr/sbin/apachectl","-D","FOREGROUND"]
 
-7) 
+7) Create Docker file with base image and Volume inside the container 
+vi Dockerfile
+FROM ubuntu
+RUN  apt update -y
+VOLUME ["volume-1"]
+LABEL author="charan"
+
+8) Create Docker file for setup tomcat and copy jenkins war file to it
+vi Dockerfile
+FROM tomcat:latest
+RUN  
