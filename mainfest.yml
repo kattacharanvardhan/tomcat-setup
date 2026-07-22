@@ -1,1 +1,91 @@
-#create pod using mainfest.yml 
+#create pod using manifest.yml 
+1) Create Pod using manifest file
+apiVersion: v1
+kind: Pod
+metadata:
+  name: prod-1
+spec:
+  containers:
+    - name: cont-1
+      image: nginx
+
+2) Create replicaset for the pods
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: ib-rs
+  labels:
+    app: bank
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: bank
+  template:
+    metadata:
+      labels:
+        app: bank
+    spec:
+      containers:
+        - name: cont-2
+          image: charanvardhan/internetbanking:v1
+
+3) Create Replication Controller for the pods
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: ib-rc
+  labels:
+    app: bank
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: bank
+    spec:
+      containers:
+        - name: cont-1
+          image: charanvardhan/internetbanking:v1
+
+4) Create Deployment for the pods
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ib-dp
+  labels:
+    app: bank
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: bank
+  template:
+    metadata:
+      labels:
+        app: bank
+    spec:
+      containers:
+        - name: cont-1
+          image: charanvardhan/internetbanking:v1
+          ports:
+            - containerPort: 80
+              hostPort: 80
+
+5)  Create two container in one pod using manifest file
+apiVersion: v1
+kind: Pod
+metadata:
+  name: two-container-one-pod
+  labels:
+    app: multi-container
+spec:
+  containers:
+    - name: nginx-cont
+      image: nginx
+      ports:
+        - containerPort: 80
+    - name: busybox-cont
+      image: busybox
+      command: ["sh","-c","while true; do echo 'Hello from BusyBox'; sleep 10; done"]
+
