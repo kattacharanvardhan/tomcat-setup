@@ -89,3 +89,54 @@ spec:
       image: busybox
       command: ["sh","-c","while true; do echo 'Hello from BusyBox'; sleep 10; done"]
 
+6) Create Non-parallel jobs 
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: non-parallel-jobs
+spec:
+  completions: 3
+  template:
+    metadata:
+      name: one-time-job
+    spec:
+      containers:
+        - name: mycont
+          image: busybox
+          command: ["echo", "hello from busybox"]
+      restartPolicy: Never
+
+7) Create parallel jobs 
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: parallel-job
+spec:
+  completions: 10
+  parallelism: 5
+  template:
+    metadata:
+      name: parallel
+    spec:
+      containers:
+        - name: busybox-cont
+          image: busybox
+          command: ["echo","Hello from Busybox"]
+      restartPolicy: Never
+
+8) Create cron job for every 1 min 
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cron-job
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: busybox-cont
+              image: busybox
+              command: ["sh", "-c", "echo 'Hello from BusyBox'"]
+          restartPolicy: Never
